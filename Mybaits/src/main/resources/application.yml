@@ -1,18 +1,18 @@
 spring:
   application:
     name: Mybaits
-#  ???????
+#  数据库配置信息
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/mybatis_test?characterEncoding=utf8&useSSL=false
     username: root
     password: zqq13127837702
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-#??mybatis????
+# mybatis配置信息
 mybatis:
-  configuration: # ???? MyBatis ??? SQL
+  configuration: # 配置打印Mybatis日志
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-    map-underscore-to-camel-case: true  #???????
-#  ??mybatis xml???????resource/mapper ??????xml??
+    map-underscore-to-camel-case: true  #配置驼峰自动转换
+  #配置mybatis xml的文件路径，在resource/mapper 创建所有表的xml文件
   mapper-locations: classpath:mapper/**Mapper.xml
 

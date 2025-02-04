@@ -27,8 +27,14 @@ public interface UserInfoMapper {
 //    一个参数是可以随便写，但是多个参数就不可以随便写了
 //    进行复用
 //    @ResultMap("BaseMap")
-    @Select("select * from user_info where id= #{aa}")
-    UserInfo selectUserById(Integer id);
+//    用#{},代表的是预编译sql（用？作为占位符）
+//    可以用来防止sql注入
+    @Select("select * from user_info where username= '${name}' and password= '${password}'")
+    List<UserInfo> selectUserById(String name,String password);
+
+//    用${},代表的是即使sql,直接进行参数替换，如果是字符串的话，需要加上引号
+    @Select("select * from user_info where username= '${name}'")
+    List<UserInfo> selectUserById1(String name);
 
 
 //    非唯一主键查询，返回结果建议使用List

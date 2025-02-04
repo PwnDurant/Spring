@@ -84,6 +84,12 @@ class UserInfoMapperTest {
         System.out.println(userInfoMapper.selectAll2());
     }
 
+    @Test
+    void selectUserById1() {
+//        可以防止SQL注入（数据库攻击手段）
+        System.out.println(userInfoMapper.selectUserById1("' or 1= '1"));
+    }
+
 //    @Test
 //    void testUpdate() {
 //        UserInfo userInfo=new UserInfo();

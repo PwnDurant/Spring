@@ -21,4 +21,13 @@ public class UserController {
     public List<UserInfo> selectUserList(){
         return userService.selectUserList();
     }
+
+    @RequestMapping("/login")
+    public boolean login(String userName,String password){
+//        参数校验省略
+//        从数据库中验证账号密码是否正确
+        UserInfo userInfo=userService.selectUserByNameAndPassword(userName,password);
+        if(userInfo!=null) return true;
+        else return false;
+    }
 }

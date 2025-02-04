@@ -16,4 +16,12 @@ public class UserService {
     public List<UserInfo> selectUserList() {
         return userInfoMapper.selectAll();
     }
+
+    public UserInfo selectUserByNameAndPassword(String userName,String password) {
+        List<UserInfo> userInfos = userInfoMapper.selectUserById(userName, password);
+        if(userInfos.size()>0){
+            return userInfos.get(0);
+        }
+        return null;
+    }
 }
