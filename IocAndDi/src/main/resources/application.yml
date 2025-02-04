@@ -1,0 +1,57 @@
+server:
+  port: 8080
+
+student:
+  id: 1
+  age: 18
+  name: java
+#  配置List
+  dbtype:
+    - mysql
+    - sqlServer
+    - oracle
+#    配置map
+  map:
+    k1: kk1
+    k2: kk2
+    k3: kk3
+
+
+captcha:
+  width: 100
+  height: 40
+  session:
+    key: SESSION_CAPTCHA_KEY
+    date: SESSION_CAPTCHA_DATE
+
+#设置默认打印日志级别
+#也可以分目录来设置路径级别
+logging:
+  level:
+    root: info
+    org:
+      mon:
+        iocanddi:
+          captcha:
+            controller: trace
+  #设置日志持久化
+  #设置日志的文件名
+  file:
+#    name的优先级比path更高
+    name: logger/springboot.log
+    path: /Users/zhaoqianqian/Downloads
+#    按照固定的大小进行分割
+  logback:
+    rollingpolicy:
+      max-file-size: 1KB
+      file-name-pattern: ${LOG_FILE}.%d{yyyy-MM-dd}.%i
+#  设置日志格式
+#  pattern:
+#    console: '%d{yyyy-MM-dd HH:mm:ss.SSS} %c %M %L [%thread] %m%n'
+#    file: '%d{yyyy-MM-dd HH:mm:ss.SSS} %c %M %L [%thread] %m%n'
+
+
+
+
+
+

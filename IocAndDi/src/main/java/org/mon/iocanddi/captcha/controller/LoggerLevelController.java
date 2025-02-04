@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/logger")
+//@Slf4j
 public class LoggerLevelController {
     private static Logger logger = LoggerFactory.getLogger(LoggerLevelController.class);
 
