@@ -1,5 +1,6 @@
 package org.mon.mybaits.demo.mapper;
 
+import org.apache.catalina.User;
 import org.apache.ibatis.annotations.*;
 import org.mon.mybaits.demo.model.UserInfo;
 
@@ -76,4 +77,40 @@ public interface UserInfoMapper {
 //    Integer update(UserInfo userInfo);
 
 //    查询
+
+//    排序功能
+//    使用#{}如果参入参数是String类型的话，就会自动添加引号，排序只能使用${}
+//    但是这样也会存在SQL注入的问题，只要这样使用就一定会存在SQL注入
+//    解决方法：使用枚举的方式，前端传入的时候被限制，或者进行参数校验
+    @Select("select * from user_info order by id ${order}")
+    List<UserInfo> selectUserByOrder(String order);
+
+//    like查询
+//    这样也会存在SQL注入问题，可以使用SQL函数（拼接）来解决问题
+    @Select("select * from uesr_info where username like '%${name}%'")
+    List<UserInfo> selectUserByLike(String name);
+
+    @Select("select * from user_info where username like concat('%',#{name},'%')")
+    List<UserInfo> selectUserByLike_ex(String name);
+
+
+//    这是注解的方式来进行动态SQL，非常繁琐，所以还是要用XML
+//    @Insert("<script>"+
+//            "insert into user_info" +
+//            "        <trim prefix=\"(\" suffix=\")\" suffixOverrides=\",\">" +
+//            "            <if test=\"username!=null\">username,</if>" +
+//            "            <if test=\"password!=null\">password,</if>" +
+//            "            <if test=\"age!=null\">age,</if>" +
+//            "            <if test=\"gender!=null\">gender</if>" +
+//            "        </trim>" +
+//            "\n" +
+//            "        values" +
+//            "        <trim prefix=\"(\" suffix=\")\" suffixOverrides=\",\">" +
+//            "            <if test=\"username!=null\">#{username},</if>" +
+//            "            <if test=\"password!=null\">#{password},</if>" +
+//            "            <if test=\"age!=null\">#{age},</if>" +
+//            "            <if test=\"gender!=null\">#{gender}</if>" +
+//            "        </trim>"+
+//            "</script>")
+//    Integer insertUserByCondition(UserInfo userInfo;
 }

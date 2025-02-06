@@ -34,7 +34,7 @@ class UserInfoMapperTest {
 
     @Test
     void selectUserById() {
-        System.out.println(userInfoMapper.selectUserById(1));
+        System.out.println(userInfoMapper.selectUserById("zhangsan","123"));
     }
 
     @Test
@@ -88,6 +88,21 @@ class UserInfoMapperTest {
     void selectUserById1() {
 //        可以防止SQL注入（数据库攻击手段）
         System.out.println(userInfoMapper.selectUserById1("' or 1= '1"));
+    }
+
+    @Test
+    void selectUserByOrder() {
+        System.out.println(userInfoMapper.selectUserByOrder("desc"));
+    }
+
+    @Test
+    void selectUserByLike() {
+        System.out.println(userInfoMapper.selectUserByLike("java"));
+    }
+
+    @Test
+    void selectUserByLike_ex() {
+        System.out.println(userInfoMapper.selectUserByLike_ex("java"));
     }
 
 //    @Test

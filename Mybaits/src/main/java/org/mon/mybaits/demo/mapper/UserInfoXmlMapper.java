@@ -21,4 +21,12 @@ public interface UserInfoXmlMapper {
     Integer updateUser2(UserInfo userInfo);
 
     Integer deleteUser(Integer id);
+
+    Integer insertUserByCondition(UserInfo userInfo);
+
+    List<UserInfo> selectUserByCondition(UserInfo userInfo);
+
+    Integer updateByCondition(UserInfo userInfo);
+
+    Integer batchDelete(List<Integer> ids);
 }

@@ -2,15 +2,41 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.mon.mybaits.demo.mapper.UserInfoXmlMapper">
 
+<!--动态SQL-->
+
+<!--    将共性的代码提取出来，后面直接用include标签通过id来进行定位-->
+    <sql id="insertCol">
+        insert into user_info (username,password,age,gender)
+    </sql>
 
     <insert id="insertUser" useGeneratedKeys="true" keyProperty="id">
-        insert into user_info (username,password,age,gender)
+        <include refid="insertCol"> </include>
         values (#{username},#{password},#{age},#{gender})
     </insert>
 
     <insert id="insertUser2">
         insert into user_info (username,password,age,gender)
         values (#{userInfo.username},#{userInfo.password},#{userInfo.age},#{userInfo.gender})
+    </insert>
+
+<!--    通过xml的方式来实现动态SQL-->
+    <insert id="insertUserByCondition">
+--              trim标签，用来去除前缀或者后缀
+        insert into user_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username!=null">username,</if>
+            <if test="password!=null">password,</if>
+            <if test="age!=null">age,</if>
+            <if test="gender!=null">gender</if>
+        </trim>
+
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username!=null">#{username},</if>
+            <if test="password!=null">#{password},</if>
+            <if test="age!=null">#{age},</if>
+            <if test="gender!=null">#{gender}</if>
+        </trim>
     </insert>
 
     <update id="updateUser">
@@ -21,8 +47,28 @@
         update user_info set password= #{password} where id = #{id}
     </update>
 
+
+    <update id="updateByCondition">
+
+-- set标签的作用：添加set关键字，去除末尾逗号，和where标签类似
+        update user_info
+        <set>
+            <if test="username!=null">username=#{username},</if>
+            <if test="password!=null">password=#{password},</if>
+            <if test="gender!=null">gender=#{gender}</if>
+        </set>
+        <where>id=#{id}</where>
+    </update>
+
     <delete id="deleteUser">
         delete from user_info where id = #{id}
+    </delete>
+
+    <delete id="batchDelete">
+        delete from user_info where id in
+        <foreach collection="ids" separator="," item="id" open="(" close=")">
+            #{id}
+        </foreach>
     </delete>
 
 
@@ -42,6 +88,34 @@
 
     <select id="selectAll" resultType="org.mon.mybaits.demo.model.UserInfo" >
         select * from user_info
+    </select>
+
+
+    <select id="selectUserByCondition" resultType="org.mon.mybaits.demo.model.UserInfo">
+<!--        select * from user_info-->
+<!--        where-->
+<!--            <trim suffixOverrides="and">-->
+<!--                <if test="age!=null">age=#{age} and </if>-->
+<!--                <if test="deleteFlag">delete_flag=#{deleteFlag}</if>-->
+<!--            </trim>-->
+
+-- 上面那种方式如果什么都没有传入就会报错
+<!--        select * from user_info-->
+<!--        where 1=1-->
+<!--        <trim suffixOverrides="and">-->
+<!--            <if test="age!=null"> and age=#{age} </if>-->
+<!--            <if test="deleteFlag">and delete_flag=#{deleteFlag}</if>-->
+<!--        </trim>-->
+
+
+-- 这是第二种方式，使用where标签
+-- 第三个动态SQL，去除前面多余的and，当有查询条件时，生成where关键字，当没有查询条件时，去除where关键字
+        select * from user_info
+
+        <where>
+            <if test="age!=null"> age=#{age} </if>
+            <if test="deleteFlag!=null">and delete_flag=#{deleteFlag}</if>
+        </where>
     </select>
 
 </mapper>
